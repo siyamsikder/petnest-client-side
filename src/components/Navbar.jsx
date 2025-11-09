@@ -1,8 +1,9 @@
+// src/Components/Navbar.jsx
 import React, { useContext } from "react";
 import { Link } from "react-router";
-import logo from "../assets/logo.png";
 import { AuthContext } from "../contexts/AuthContext";
 import { toast } from "react-toastify";
+import { MdPets } from "react-icons/md";
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
@@ -20,37 +21,29 @@ const Navbar = () => {
   const navItems = (
     <>
       <li>
-        <Link to="/" className="hover:text-accent transition-colors">
+        <Link to="/" className="hover:text-primary">
           Home
         </Link>
       </li>
       <li>
-        <Link
-          to="/pets-supplies"
-          className="hover:text-accent transition-colors">
+        <Link to="/pets-supplies" className="hover:text-primary">
           Pets & Supplies
         </Link>
       </li>
       {user && (
         <>
           <li>
-            <Link
-              to="/add-listing"
-              className="hover:text-accent transition-colors">
+            <Link to="/add-listing" className="hover:text-primary">
               Add Listing
             </Link>
           </li>
           <li>
-            <Link
-              to="/my-listings"
-              className="hover:text-accent transition-colors">
+            <Link to="/my-listings" className="hover:text-primary">
               My Listings
             </Link>
           </li>
           <li>
-            <Link
-              to="/my-orders"
-              className="hover:text-accent transition-colors">
+            <Link to="/my-orders" className="hover:text-primary">
               My Orders
             </Link>
           </li>
@@ -58,8 +51,9 @@ const Navbar = () => {
       )}
     </>
   );
+
   return (
-    <div className="navbar bg-primary text-white px-6 shadow-lg">
+    <div className="navbar bg-secondary text-white px-6 shadow-lg min-h-[70px]">
       {/* Navbar Start */}
       <div className="navbar-start">
         <div className="dropdown">
@@ -80,21 +74,19 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box w-52 text-black">
+            className="menu menu-sm dropdown-content mt-3 z-[10] p-2 shadow bg-base-100 rounded-box text-black">
             {navItems}
           </ul>
         </div>
-        <Link to="/" className="flex items-center gap-2">
-          <img
-            src={logo}
-            alt="PetNest Logo"
-            className="w-20 h-20 object-contain"
-          />
+        <Link to="/" className="flex items-center gap-2 font-semibold text-lg">
+          <MdPets className="text-4xl text-primary" />
+          <span className="font-bold text-xl">PetNest</span>
         </Link>
       </div>
 
+      {/* Navbar Center */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-5 font-medium">
+        <ul className="menu menu-horizontal gap-4 font-semibold">
           {navItems}
         </ul>
       </div>
@@ -102,15 +94,15 @@ const Navbar = () => {
       {/* Navbar End */}
       <div className="navbar-end flex items-center gap-3">
         {!user ? (
-          <div className="flex gap-2 ">
+          <div className="flex gap-2">
             <Link
               to="/login"
-              className="btn btn-outline btn-sm border-white text-white hover:bg-white hover:text-primary">
+              className="btn btn-outline btn-md border-white text-white hover:bg-white hover:text-secondary">
               Login
             </Link>
             <Link
               to="/register"
-              className="btn btn-sm bg-white text-primary hover:bg-accent hover:text-white border-none">
+              className="btn btn-md bg-primary hover:bg-[#d0ba0e] hover:text-white border-none">
               Register
             </Link>
           </div>
@@ -119,14 +111,14 @@ const Navbar = () => {
             <img
               src={user.photoURL || "https://i.ibb.co/3z5GzKk/avatar.png"}
               alt="User Avatar"
-              className="w-10 h-10 rounded-full border-2 border-white"
+              className="w-10 h-10 rounded-full border-2 border-primary object-cover"
             />
             <span className="hidden sm:block font-medium">
               {user.displayName || "User"}
             </span>
             <button
               onClick={handleSignOut}
-              className="btn btn-sm bg-accent border-none hover:bg-white hover:text-[#1c49c2] text-white">
+              className="btn btn-sm bg-accent border-none hover:bg-white hover:text-primary text-white">
               Logout
             </button>
           </div>
