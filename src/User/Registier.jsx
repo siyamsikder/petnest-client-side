@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router";
 import { CiRead } from "react-icons/ci";
 import { toast } from "react-toastify";
 import { AuthContext } from "../contexts/AuthContext";
-// import logo from "../assets/logo.png"
 
 const Register = () => {
   const { createUser, signInWithGoogle } = useContext(AuthContext);
@@ -17,14 +16,13 @@ const Register = () => {
     const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(name);
-    
+    console.log(name)
+
     createUser(email, password)
       .then((result) => {
-        console.log("User created:", result.user);
         toast.success("Registration successful!");
         form.reset();
-        navigate("/"); //
+        navigate("/");
       })
       .catch((error) => {
         toast.error(error.message);
@@ -35,7 +33,6 @@ const Register = () => {
   const handleGoogleSignin = () => {
     signInWithGoogle()
       .then((result) => {
-        console.log("Google login:", result.user);
         const newUser = {
           name: result.user.displayName,
           email: result.user.email,
@@ -48,11 +45,7 @@ const Register = () => {
             "content-type": "application/json",
           },
           body: JSON.stringify(newUser),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log("data after user save", data);
-          });
+        });
         toast.success("Google login successful!");
         navigate("/");
       })
@@ -62,51 +55,50 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-pink-100 flex items-center justify-center p-10">
-      <div className="card w-full max-w-md bg-base-100 shadow-2xl rounded-2xl">
+    <div className="min-h-screen flex items-center justify-center bg-black px-4">
+      <div className="card w-full max-w-md bg-neutral text-white shadow-2xl rounded-2xl border border-white/10">
         <div className="card-body">
-          <h1 className="text-4xl font-extrabold text-center text-primary mb-4">
+          {/* Title */}
+          <h1 className="text-4xl font-extrabold text-center text-primary mb-6">
             Create an Account
           </h1>
 
           {/* Register Form */}
           <form onSubmit={handleRegister}>
-            <fieldset className="space-y-3">
+            <fieldset className="space-y-4">
               {/* Name */}
-              <label className="label font-semibold text-gray-700">Name</label>
+              <label className="label font-medium text-gray-200">Name</label>
               <input
                 name="name"
                 type="text"
-                className="input input-bordered w-full"
+                className="input input-bordered w-full bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-primary focus:outline-none"
                 placeholder="Enter your name"
                 required
               />
 
               {/* Email */}
-              <label className="label font-semibold text-gray-700">Email</label>
+              <label className="label font-medium text-gray-200">Email</label>
               <input
                 name="email"
                 type="email"
-                className="input input-bordered w-full"
+                className="input input-bordered w-full bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-primary focus:outline-none"
                 placeholder="Enter your email"
                 required
               />
 
               {/* Password */}
-              <label className="label font-semibold text-gray-700">
-                Password
-              </label>
+              <label className="label font-medium text-gray-200">Password</label>
               <div className="relative">
                 <input
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-primary focus:outline-none"
                   placeholder="Enter your password"
                   required
                 />
                 <span
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-xl text-gray-600 cursor-pointer">
+                  className="absolute right-3 top-3 text-xl text-gray-400 cursor-pointer hover:text-primary transition">
                   <CiRead />
                 </span>
               </div>
@@ -114,19 +106,19 @@ const Register = () => {
               {/* Register Button */}
               <button
                 type="submit"
-                className="btn text-primary bg-white border-2 border-primary w-full mt-5 text font-semibold">
+                className="btn w-full mt-5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg border-none">
                 Register
               </button>
             </fieldset>
           </form>
 
           {/* OR Divider */}
-          <div className="divider">OR</div>
+          <div className="divider text-gray-400">OR</div>
 
           {/* Google Button */}
           <button
             onClick={handleGoogleSignin}
-            className="btn mt-2 btn-outline w-full flex items-center justify-center">
+            className="btn mt-2 btn-outline w-full border-white/30 text-white hover:bg-white/10 flex items-center justify-center transition-all duration-200">
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               alt="Google"
@@ -136,9 +128,9 @@ const Register = () => {
           </button>
 
           {/* Redirect to Login */}
-          <p className="text-center text-sm text-gray-600 mt-5">
-            Already have an account?
-            <Link to="/login" className="link text-primary font-semibold ml-1">
+          <p className="text-center text-sm text-gray-400 mt-5">
+            Already have an account?{" "}
+            <Link to="/login" className="text-primary font-semibold ml-1">
               Login
             </Link>
           </p>

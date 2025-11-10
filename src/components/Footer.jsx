@@ -5,7 +5,7 @@ import { MdPets } from "react-icons/md";
 
 const Footer = () => {
   return (
-    <footer className="bg-secondary text-white py-10 mt-16 border-t border-white/10">
+    <footer className="bg-secondary text-white py-10 border-t border-white/10">
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10 items-start">
         <div>
           <div className="flex items-center gap-2 mb-3">
