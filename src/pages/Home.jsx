@@ -1,13 +1,16 @@
 import React from "react";
 import HeroSection from "./HeroSection";
 import CategorySection from "./CategorySection";
+import WhyAdoptFromPetNest from "./WhyAdoptFromPetNest";
+import MeetOurPetHeroes from "./MeetOurPetHeroes";
 
 const Home = () => {
   return (
     <div>
       <HeroSection />
       <CategorySection/>
-      this is home page
+      <WhyAdoptFromPetNest/>
+      <MeetOurPetHeroes/>
     </div>
   );
 };

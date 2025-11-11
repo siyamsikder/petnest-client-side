@@ -1,19 +1,26 @@
 @import "tailwindcss";
-@plugin "daisyui" {
-  themes: light --default;
- }
+@plugin "daisyui";
+
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: #fddf08;
-  --color-secondary: #0a0a0a;
-  --color-primarywhit: #ffffff;
+
+  --color-primary: #fddf08; /* brand yellow */
+  --color-secondary: #0a0a0a; /* navbar black */
+  --color-base-100: #ffffff; /* white base */
+  --color-accent: #fef08a; /* soft light yellow accent */
 }
 
-/* Custom button override */
-/* .btn-primary {
-
+body {
+  font-family: 'Poppins', sans-serif;
 }
-.btn-primary:hover {
-  @apply ;
-} */
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+}
+h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+}
+p, span, a {
+  font-family: 'Roboto', sans-serif;
+}
+
