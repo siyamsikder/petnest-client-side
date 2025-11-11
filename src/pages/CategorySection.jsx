@@ -17,7 +17,6 @@ const CategorySection = () => {
         <h2 className="text-3xl font-bold mb-8 text-gray-800">
           🐾 Browse by Category
         </h2>
-
         {/* Category Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {categories.map((category, index) => (
@@ -33,9 +32,9 @@ const CategorySection = () => {
                 <h3 className="text-xl font-semibold mb-2 text-gray-700">
                   {category.name}
                 </h3>
-                <Link to={category.route}>
+                <Link to={`/category-filtered-product/${category.name}`}>
                   <button className="btn w-full btn-primary text-white py-2 rounded-lg transition">
-                    View {category.name.split(" ")[0]}
+                    View {category.name}
                   </button>
                 </Link>
               </div>
