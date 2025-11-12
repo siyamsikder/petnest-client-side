@@ -27,13 +27,13 @@ export const routre = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/listings",
+        path: "/pets-supplies",
         element: <Listings />,
         loader: () => fetch("http://localhost:3000/listings"),
       },
       {
-        path: "/recent-listing",
-        element: <RecentListings />,
+        path:"",
+        element:<Listings/>
       },
       {
         path: "/category-filtered-product/:categoryName",

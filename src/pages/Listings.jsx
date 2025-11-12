@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useLoaderData } from "react-router";
 import { FaTag, FaMoneyBillWave, FaMapMarkerAlt, FaPaw } from "react-icons/fa";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Listings = () => {
   const data = useLoaderData();
-
+  const { loading } = useContext(AuthContext);
+  if (loading) return <Loder />;
   return (
     <section className="py-16 text-white">
       <div className="max-w-6xl mx-auto px-4">
@@ -20,8 +22,7 @@ const Listings = () => {
             {data.map((listing) => (
               <div
                 key={listing._id}
-                className="bg-base-100 rounded-2xl shadow-lg hover:shadow-2xl border border-gray-200 transition-transform transform hover:-translate-y-2"
-              >
+                className="bg-base-100 rounded-2xl shadow-lg hover:shadow-2xl border border-gray-200 transition-transform transform hover:-translate-y-2">
                 <img
                   src={listing.image}
                   alt={listing.name}
@@ -46,7 +47,8 @@ const Listings = () => {
                   </p>
 
                   <p className="flex items-center gap-2 text-sm">
-                    <FaMapMarkerAlt className="text-red-500" /> {listing.location}
+                    <FaMapMarkerAlt className="text-red-500" />{" "}
+                    {listing.location}
                   </p>
 
                   <button className="w-full mt-4 py-2 rounded-lg bg-primary text-white font-medium shadow-md hover:opacity-90 transition">
