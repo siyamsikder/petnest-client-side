@@ -10,7 +10,7 @@ const MainLayout = () => {
   if (loading) return <Loder />;
 
   return (
-    <div className="flex flex-col min-h-screen ">
+    <div className="flex flex-col min-h-screen bg-[#fcf0ca]">
       <header className="">
         <Navbar />
       </header>

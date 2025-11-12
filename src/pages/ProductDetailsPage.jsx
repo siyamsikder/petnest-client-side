@@ -180,7 +180,7 @@ const ProductDetailsPage = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-primary hover:bg-primary/90 text-white font-semibold border-none rounded-lg transition-all">
+                  className="btn bg-primary hover:bg-white hover:text-secondary text-white hover:btn-outline">
                   Confirm Order
                 </button>
               </div>
