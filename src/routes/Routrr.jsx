@@ -7,11 +7,12 @@ import Listings from "../pages/Listings";
 import CategoryByListing from "../pages/CategoryByListing";
 import RecentListings from "../pages/RecentListings";
 import ErrorPage from "../pages/ErrorPage";
+import ProductDetailsPage from "../pages/ProductDetailsPage";
 
 export const routre = createBrowserRouter([
   {
     path: "/",
-    errorElement:<ErrorPage/>,
+    errorElement: <ErrorPage />,
     element: <MainLayout />,
     children: [
       {
@@ -32,9 +33,12 @@ export const routre = createBrowserRouter([
         loader: () => fetch("http://localhost:3000/listings"),
       },
       {
-        path:"",
-        element:<Listings/>
+        path: "listing/:id",
+        element: <ProductDetailsPage />,
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/listings/${params.id}`)
       },
+
       {
         path: "/category-filtered-product/:categoryName",
         element: <CategoryByListing />,
@@ -42,6 +46,7 @@ export const routre = createBrowserRouter([
           fetch(
             `http://localhost:3000/category-filtered-product/${params.categoryName}`
           ),
+          
       },
     ],
   },

@@ -1,10 +1,11 @@
 import React from "react";
-import { useLoaderData, useParams } from "react-router";
+import { useLoaderData, useNavigate, useParams } from "react-router";
 import { FaTag, FaMoneyBillWave, FaMapMarkerAlt, FaPaw } from "react-icons/fa";
 
 const CategoryByListing = () => {
   const { categoryName } = useParams();
   const listings = useLoaderData();
+  const navigate = useNavigate();
 
   return (
     <section className="py-16 min-h-screen">
@@ -50,9 +51,11 @@ const CategoryByListing = () => {
                     <FaMapMarkerAlt className="text-red-500" />{" "}
                     {listing.location}
                   </p>
-
-                  <button className="w-full mt-4 py-2 rounded-lg bg-primary text-white font-medium shadow-md hover:opacity-90 transition">
-                    See Details
+                  <button
+                    key={listing._id}
+                    onClick={() => navigate(`/listing/${listing._id}`)}
+                    className="w-full mt-4 py-2 rounded-lg bg-primary text-white font-medium shadow-md hover:opacity-90 transition">
+                    View Details
                   </button>
                 </div>
               </div>

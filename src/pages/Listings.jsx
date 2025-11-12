@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { FaTag, FaMoneyBillWave, FaMapMarkerAlt, FaPaw } from "react-icons/fa";
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -50,10 +50,11 @@ const Listings = () => {
                     <FaMapMarkerAlt className="text-red-500" />{" "}
                     {listing.location}
                   </p>
-
-                  <button className="w-full mt-4 py-2 rounded-lg bg-primary text-white font-medium shadow-md hover:opacity-90 transition">
-                    See Details
-                  </button>
+                  <Link to={`/listing/${listing._id}`}>
+                    <button className="w-full mt-4 py-2 rounded-lg bg-primary text-white font-medium shadow-md hover:opacity-90 transition">
+                      See Details
+                    </button>
+                  </Link>
                 </div>
               </div>
             ))}

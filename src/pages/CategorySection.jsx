@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
-import ImageLoader from "../components/imageLoader";
 
 const CategorySection = () => {
   const [categories, setCategories] = useState([]);
@@ -40,7 +39,7 @@ const CategorySection = () => {
             <div
               key={index}
               className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
-              <ImageLoader
+              <img
                 src={category.image}
                 alt={category.name}
                 className="rounded-t-2xl w-full h-48 object-cover"

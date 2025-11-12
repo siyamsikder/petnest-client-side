@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FaTag, FaMoneyBillWave, FaMapMarkerAlt, FaPaw } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const RecentListings = () => {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const navigate=useNavigate()
   useEffect(() => {
     fetch("http://localhost:3000/listings")
       .then((res) => res.json())
@@ -23,7 +23,11 @@ const RecentListings = () => {
   }, []);
 
   if (loading) {
-    return <p className="text-center py-16 text-gray-500">Loading recent listings...</p>;
+    return (
+      <p className="text-center py-16 text-gray-500">
+        Loading recent listings...
+      </p>
+    );
   }
 
   return (
@@ -34,14 +38,15 @@ const RecentListings = () => {
         </h2>
 
         {listings.length === 0 ? (
-          <p className="text-center text-gray-500">No recent listings available.</p>
+          <p className="text-center text-gray-500">
+            No recent listings available.
+          </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {listings.map((listing) => (
               <div
                 key={listing._id}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl border border-gray-200 transition-transform transform hover:-translate-y-2"
-              >
+                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl border border-gray-200 transition-transform transform hover:-translate-y-2">
                 <img
                   src={listing.image}
                   alt={listing.name}
@@ -66,15 +71,16 @@ const RecentListings = () => {
                   </p>
 
                   <p className="flex items-center gap-2 text-sm">
-                    <FaMapMarkerAlt className="text-red-500" /> {listing.location}
+                    <FaMapMarkerAlt className="text-red-500" />{" "}
+                    {listing.location}
                   </p>
 
-                  <Link
-                    to={`/listing/${listing._id}`}
-                    className="w-full mt-4 inline-block text-center py-2 rounded-lg bg-primary text-white font-medium shadow-md hover:opacity-90 transition"
-                  >
-                    See Details
-                  </Link>
+                  <button
+                    key={listing._id}
+                    onClick={() => navigate(`/listing/${listing._id}`)}
+                    className="btn bg-primary text-white">
+                    View Details
+                  </button>
                 </div>
               </div>
             ))}
