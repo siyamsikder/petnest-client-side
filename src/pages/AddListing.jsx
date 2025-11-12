@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { AuthContext } from "../contexts/AuthContext";
 
 const AddListing = ({ onNewListing }) => {
+  const { user } = useContext(AuthContext);
+
   const [formData, setFormData] = useState({
     name: "",
     category: "Pets",
@@ -12,7 +15,11 @@ const AddListing = ({ onNewListing }) => {
     date: "",
     email: "user@example.com",
   });
-
+  useEffect(() => {
+    if (user?.email) {
+      setFormData((prev) => ({ ...prev, email: user.email }));
+    }
+  }, [user]);
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -45,7 +52,7 @@ const AddListing = ({ onNewListing }) => {
         description: "",
         image: "",
         date: "",
-        email: "user@example.com",
+        email: user?.email || "",
       });
 
       onNewListing?.(result);
@@ -57,7 +64,7 @@ const AddListing = ({ onNewListing }) => {
   return (
     <div className="max-w-2xl mx-auto rounded-2xl my-16">
       <h2 className="text-3xl font-bold text-center text-primary mb-8">
-        🐾 Add a New Listing
+        🐶 Add a New Listing
       </h2>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 mx-10 gap-6">
@@ -79,8 +86,7 @@ const AddListing = ({ onNewListing }) => {
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="select select-bordered w-full rounded-xl"
-          >
+            className="select select-bordered w-full rounded-xl">
             <option value="Pets">Pets</option>
             <option value="Food">Food</option>
             <option value="Accessories">Accessories</option>
@@ -169,8 +175,7 @@ const AddListing = ({ onNewListing }) => {
         {/* Submit */}
         <button
           type="submit"
-          className="btn btn-primary w-full mt-6 text-white font-semibold text-lg rounded-xl shadow-md hover:shadow-lg transition"
-        >
+          className="btn btn-primary w-full mt-6 text-white font-semibold text-lg rounded-xl shadow-md hover:shadow-lg transition">
           Add Listing
         </button>
       </form>
