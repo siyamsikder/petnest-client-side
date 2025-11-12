@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router";
 
 const HeroBanner = () => {
   const bannerImg =
@@ -28,9 +29,11 @@ const HeroBanner = () => {
         <p className="text-lg md:text-xl mb-6 font-medium text-neutral-700">
           Adopt, Buy, or Sell Pet Supplies
         </p>
-        <button className="btn btn-primary btn-lg hover:scale-105 transition-transform">
-          Browse Pets
-        </button>
+        <Link to="/listings">
+          <button className="btn btn-primary btn-lg hover:scale-105 transition-transform">
+            Browse Pets
+          </button>
+        </Link>
       </motion.div>
 
       {/* Optional Floating Paw Icons */}

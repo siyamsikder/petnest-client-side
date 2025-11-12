@@ -6,12 +6,11 @@ const Listings = () => {
   const data = useLoaderData();
 
   return (
-    <section className="py-16 bg-secondary text-white">
+    <section className="py-16 text-white">
       <div className="max-w-6xl mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-extrabold mb-12 text-center text-white">
           🐾 All Listings
         </h2>
-
         {data.length === 0 ? (
           <p className="text-center text-gray-200">
             No listings available right now.

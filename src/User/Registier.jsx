@@ -5,24 +5,31 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../contexts/AuthContext";
 
 const Register = () => {
-  const { createUser, signInWithGoogle } = useContext(AuthContext);
+  const { createUser, updateUserProfile, signInWithGoogle } =
+    useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  // 🔹 Handle email-password registration
   const handleRegister = (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
+    const photo = form.photo.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(name)
 
     createUser(email, password)
       .then((result) => {
-        toast.success("Registration successful!");
-        form.reset();
-        navigate("/");
+        updateUserProfile({
+          displayName: name,
+          photoURL: photo,
+        })
+          .then(() => {
+            toast.success("Registration successful!");
+            form.reset();
+            navigate("/");
+          })
+          .catch((error) => toast.error(error.message));
       })
       .catch((error) => {
         toast.error(error.message);
@@ -41,9 +48,7 @@ const Register = () => {
 
         fetch("http://localhost:3000/users", {
           method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
+          headers: { "content-type": "application/json" },
           body: JSON.stringify(newUser),
         });
         toast.success("Google login successful!");
@@ -76,6 +81,17 @@ const Register = () => {
                 required
               />
 
+              {/* Photo URL */}
+              <label className="label font-medium text-gray-200">
+                Photo URL
+              </label>
+              <input
+                name="photo"
+                type="url"
+                className="input input-bordered w-full bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-primary focus:outline-none"
+                placeholder="Enter your photo URL"
+              />
+
               {/* Email */}
               <label className="label font-medium text-gray-200">Email</label>
               <input
@@ -87,7 +103,9 @@ const Register = () => {
               />
 
               {/* Password */}
-              <label className="label font-medium text-gray-200">Password</label>
+              <label className="label font-medium text-gray-200">
+                Password
+              </label>
               <div className="relative">
                 <input
                   name="password"
@@ -106,7 +124,7 @@ const Register = () => {
               {/* Register Button */}
               <button
                 type="submit"
-                className="btn w-full mt-5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg border-none">
+                className="btn w-full mt-5 bg-primary hover:bg-primary/90 text-black font-semibold rounded-lg border-none">
                 Register
               </button>
             </fieldset>

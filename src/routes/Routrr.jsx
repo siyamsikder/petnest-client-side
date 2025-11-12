@@ -5,10 +5,13 @@ import Register from "../User/Registier";
 import Login from "../User/LOgin";
 import Listings from "../pages/Listings";
 import CategoryByListing from "../pages/CategoryByListing";
+import RecentListings from "../pages/RecentListings";
+import ErrorPage from "../pages/ErrorPage";
 
 export const routre = createBrowserRouter([
   {
     path: "/",
+    errorElement:<ErrorPage/>,
     element: <MainLayout />,
     children: [
       {
@@ -27,6 +30,10 @@ export const routre = createBrowserRouter([
         path: "/listings",
         element: <Listings />,
         loader: () => fetch("http://localhost:3000/listings"),
+      },
+      {
+        path: "/recent-listing",
+        element: <RecentListings />,
       },
       {
         path: "/category-filtered-product/:categoryName",
