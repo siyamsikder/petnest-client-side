@@ -36,28 +36,17 @@ const Register = () => {
       });
   };
 
-  // 🔹 Handle Google Sign-in
+  //Handle Google
   const handleGoogleSignin = () => {
-    signInWithGoogle()
-      .then((result) => {
-        const newUser = {
-          name: result.user.displayName,
-          email: result.user.email,
-          image: result.user.photoURL,
-        };
-
-        fetch("http://localhost:3000/users", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(newUser),
-        });
-        toast.success("Google login successful!");
-        navigate("/");
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
-  };
+  signInWithGoogle()
+    .then((result) => {
+      toast.success("Google login successful!");
+      navigate("/");
+    })
+    .catch((error) => {
+      toast.error(error.message);
+    });
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black px-4">
