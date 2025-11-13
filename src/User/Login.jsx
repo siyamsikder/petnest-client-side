@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { CiRead } from "react-icons/ci";
 import { AuthContext } from "../contexts/AuthContext";
 import { toast } from "react-toastify";
@@ -9,6 +9,9 @@ const Login = () => {
   const { signInUser, signInWithGoogle, resetPassword } =
     useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   // Email Password Login
   const handleLogin = (e) => {
@@ -20,7 +23,7 @@ const Login = () => {
     signInUser(email, password)
       .then((result) => {
         toast.success("Login successful!");
-        navigate("/");
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         toast.error(error.message);
@@ -40,7 +43,7 @@ const Login = () => {
     signInWithGoogle()
       .then((result) => {
         toast.success("Google login successful!");
-        navigate("/");
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         toast.error(error.message);

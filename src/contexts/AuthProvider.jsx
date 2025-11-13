@@ -38,7 +38,7 @@ const AuthProvider = ({ children }) => {
     return updateProfile(auth.currentUser, userInfo);
   };
     const resetPassword = (email) => {
-    setLoading(true);
+    setLoading(false);
     return sendPasswordResetEmail(auth, email);
   };
   useEffect(() => {

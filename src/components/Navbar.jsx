@@ -1,16 +1,18 @@
 // src/Components/Navbar.jsx
 import React, { useContext } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import { toast } from "react-toastify";
 import { MdPets } from "react-icons/md";
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
+   const navigate = useNavigate();
 
   const handleSignOut = () => {
     signOutUser()
       .then(() => {
+        navigate("/")
         toast.success("✅ Logged out successfully!");
       })
       .catch((error) => {
