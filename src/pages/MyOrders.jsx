@@ -1,15 +1,35 @@
-import React from "react";
-import { useLoaderData } from "react-router";
-import jsPDF from "jspdf";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 import "jspdf-autotable";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+
+import { toast } from "react-toastify";
 
 const MyOrders = () => {
-  const orders = useLoaderData();
+  const { user } = useContext(AuthContext);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (user?.email) {
+      fetch(`http://localhost:3000/orders?email=${user.email}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setOrders(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error("Failed to fetch orders!");
+          setLoading(false);
+        });
+    }
+  }, [user?.email]);
 
   const handleExportPDF = () => {
     const doc = new jsPDF("p", "pt", "a4");
 
-    // Table headers
     const headers = [
       ["Product", "Price", "Quantity", "Address", "Date", "Phone"],
     ];
@@ -22,58 +42,37 @@ const MyOrders = () => {
       order.phone,
     ]);
 
-    // Optional: Logo
-    const img = new Image();
-    img.src = "https://i.ibb.co/6mXwYVZ/logo.png"; // replace with your logo
-    img.crossOrigin = "anonymous";
+    doc.setFontSize(18);
+    doc.text("🐾 My Orders Report", 40, 50);
+    doc.setFontSize(10);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, 40, 65);
 
-    img.onload = () => {
-      doc.addImage(img, "PNG", 40, 20, 50, 50); // x, y, width, height
-      doc.setFontSize(18);
-      doc.text("🐾 My Orders Report", 100, 50);
-      doc.setFontSize(10);
-      doc.text(`Generated: ${new Date().toLocaleString()}`, 100, 65);
+    autoTable(doc, {
+      head: headers,
+      body: data,
+      startY: 80,
+      theme: "grid",
+      headStyles: { fillColor: [99, 46, 227], textColor: 255 },
+      styles: { fontSize: 11, cellPadding: 6 },
+      margin: { left: 40, right: 40 },
+    });
 
-      doc.autoTable({
-        head: headers,
-        body: data,
-        startY: 90,
-        theme: "grid",
-        headStyles: { fillColor: [99, 46, 227], textColor: 255 },
-        styles: { fontSize: 11, cellPadding: 6 },
-        margin: { left: 40, right: 40 },
-      });
-
-      doc.save("my_orders.pdf");
-    };
-
-    // If image fails, generate table without logo
-    img.onerror = () => {
-      doc.setFontSize(18);
-      doc.text("🐾 My Orders Report", 40, 50);
-      doc.setFontSize(10);
-      doc.text(`Generated: ${new Date().toLocaleString()}`, 40, 65);
-
-      doc.autoTable({
-        head: headers,
-        body: data,
-        startY: 80,
-        theme: "grid",
-        headStyles: { fillColor: [99, 46, 227], textColor: 255 },
-        styles: { fontSize: 11, cellPadding: 6 },
-        margin: { left: 40, right: 40 },
-      });
-
-      doc.save("my_orders.pdf");
-    };
+    doc.save("my_orders.pdf");
   };
+
+  if (loading)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <span className="loading loading-spinner loading-lg text-primary"></span>
+      </div>
+    );
 
   return (
     <section className="max-w-7xl mx-auto py-12 px-6 min-h-screen">
       <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-        <h1 className="text-4xl font-bold text-primary mb-4 md:mb-0">
-          My Orders ({orders.length})
-        </h1>
+        <h2 className="text-3xl font-bold mb-4">
+          🐾 My Orders ({orders.length})
+        </h2>
         {orders.length > 0 && (
           <button
             onClick={handleExportPDF}
@@ -85,7 +84,7 @@ const MyOrders = () => {
 
       {orders.length === 0 ? (
         <p className="text-center text-gray-500 text-lg">
-          You haven't placed any orders yet 😅
+          You haven't placed any orders yet
         </p>
       ) : (
         <div className="overflow-x-auto border rounded-xl shadow-md">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLoaderData } from "react-router";
 import {
   FaMoneyBillWave,
@@ -8,17 +8,18 @@ import {
   FaDog,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { AuthContext } from "../contexts/AuthContext";
 
 const ProductDetailsPage = () => {
   const listing = useLoaderData();
   const [showModal, setShowModal] = useState(false);
-
+  const { user } = useContext(AuthContext);
   const handleOrderSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const order = {
       buyerName: form.name.value,
-      email: form.email.value,
+      email: user?.email,
       productId: listing._id,
       productName: listing.name,
       quantity: listing.category.includes("Pet") ? 1 : form.quantity.value,

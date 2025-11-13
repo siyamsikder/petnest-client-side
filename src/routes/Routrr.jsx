@@ -34,7 +34,8 @@ export const routre = createBrowserRouter([
             <ProductDetailsPage />
           </PrivetRouts>
         ),
-        loader: ({ params }) => fetch(`http://localhost:3000/listings/${params.id}`),
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/listings/${params.id}`),
       },
       {
         path: "/category-filtered-product/:categoryName",
@@ -44,17 +45,15 @@ export const routre = createBrowserRouter([
           </PrivetRouts>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/category-filtered-product/${params.categoryName}`),
+          fetch(
+            `http://localhost:3000/category-filtered-product/${params.categoryName}`
+          ),
       },
       {
         path: "/my-orders",
-        element: (
-          <PrivetRouts>
-            <MyOrders />
-          </PrivetRouts>
-        ),
-        loader: () => fetch("http://localhost:3000/orders"),
+        element: <MyOrders />,
       },
+
       {
         path: "/add-listing",
         element: (
