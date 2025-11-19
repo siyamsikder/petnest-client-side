@@ -1,8 +1,15 @@
 # PetNest
 
-**Live demo:** [https://petnest-d457a1.netlify.app/](https://petnest-d457a1.netlify.app/)
-**Client repo:** [https://github.com/siyamsikder/petnest-client-side](https://github.com/siyamsikder/petnest-client-side)
-**Server repo:** [https://github.com/siyamsikder/petnest-server-side](https://github.com/siyamsikder/petnest-server-side)
+---
+
+## 🔗 Project Links
+
+**Live Demo:** [https://petnest-d457a1.netlify.app/](https://petnest-d457a1.netlify.app/)
+
+**Client Repository:** [https://github.com/siyamsikder/petnest-client-side](https://github.com/siyamsikder/petnest-client-side)
+
+**Server Repository:** [https://github.com/siyamsikder/petnest-server-side](https://github.com/siyamsikder/petnest-server-side)
+
 
 ---
 
