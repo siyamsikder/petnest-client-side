@@ -8,7 +8,7 @@
 
 **Client Repository:** [https://github.com/siyamsikder/petnest-client-side](https://github.com/siyamsikder/petnest-client-side)
 
-**Server Repository:** [https://github.com/siyamsikder/petnest-server-side](https://github.com/siyamsikder/petnest-server-side)
+**Server Repository:** [[https://github.com/siyamsikder/petnest-server-side](https://github.com/siyamsikder/digital-life-lessons-server)]
 
 
 ---
