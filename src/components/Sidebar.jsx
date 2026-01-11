@@ -28,30 +28,35 @@ const Sidebar = () => {
             })
             .catch(err => toast.error(err.message));
     };
-    const navItems = [
-        { name: 'Dashboard', path: '/dashboard/overview', icon: <MdDashboard size={22} /> },
+    const navItems = role === 'admin' ? [
+        { name: 'Admin Overview', path: '/dashboard/overview', icon: <MdDashboard size={22} /> },
+        { name: 'All Orders', path: '/dashboard/admin/all-orders', icon: <MdShoppingBag size={22} /> },
+        { name: 'Manage Users', path: '/dashboard/admin/manage-users', icon: <MdPeopleAlt size={22} /> },
         { name: 'Profile', path: '/dashboard/profile', icon: <MdPerson size={22} /> },
+    ] : [
+        { name: 'User Overview', path: '/dashboard/overview', icon: <MdDashboard size={22} /> },
+        { name: 'My Orders', path: '/dashboard/my-orders', icon: <MdShoppingBag size={22} /> },
         { name: 'My Listings', path: '/dashboard/my-items', icon: <MdList size={22} /> },
         { name: 'Add Listing', path: '/dashboard/add-listing', icon: <MdAdd size={22} /> },
-        { name: 'My Orders', path: '/dashboard/my-orders', icon: <MdShoppingBag size={22} /> },
-    ];
-
-    const adminItems = [
-        { name: 'Manage Users', path: '/dashboard/admin/manage-users', icon: <MdPeopleAlt size={22} /> },
+        { name: 'Profile', path: '/dashboard/profile', icon: <MdPerson size={22} /> },
     ];
 
     return (
         <aside className="w-64 bg-secondary text-white flex flex-col h-full shadow-xl">
             {/* Logo Section */}
-            <div className="p-6 border-b border-gray-800 flex items-center justify-between gap-3 text-white">
-                <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-secondary font-bold text-xl">
-                        P
+            <div className="p-6 border-b border-gray-800 flex flex-col gap-4 text-white">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-secondary font-bold text-xl">
+                            P
+                        </div>
+                        <span className="text-xl font-bold tracking-tight">PetNest</span>
                     </div>
-                    <span className="text-xl font-bold tracking-tight">PetNest</span>
                 </div>
-                <div className="px-2 py-0.5 bg-primary/20 text-primary border border-primary/30 rounded text-[10px] font-bold uppercase">
-                    {role === 'admin' ? 'Admin' : 'User'}
+                <div className="bg-primary/10 border border-primary/20 rounded-xl p-3 text-center">
+                    <p className="text-[10px] text-primary font-bold uppercase tracking-[2px]">
+                        {role === 'admin' ? 'Admin Dashboard' : 'User Dashboard'}
+                    </p>
                 </div>
             </div>
 
@@ -76,28 +81,6 @@ const Sidebar = () => {
                     </NavLink>
                 ))}
 
-                {role === 'admin' && (
-                    <div className="pt-6">
-                        <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 px-2">
-                            Admin Section
-                        </div>
-                        {adminItems.map((item) => (
-                            <NavLink
-                                key={item.path}
-                                to={item.path}
-                                className={({ isActive }) =>
-                                    `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${isActive
-                                        ? 'bg-primary text-secondary font-medium'
-                                        : 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                                    }`
-                                }
-                            >
-                                {item.icon}
-                                <span>{item.name}</span>
-                            </NavLink>
-                        ))}
-                    </div>
-                )}
             </nav>
 
             {/* Back to Home & Logout UI Placeholder */}
