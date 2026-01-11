@@ -35,17 +35,17 @@ const Navbar = () => {
       {user && (
         <>
           <li>
-            <Link to="/add-listing" className="hover:text-primary">
+            <Link to="/dashboard/add-listing" className="hover:text-primary">
               Add Listing
             </Link>
           </li>
           <li>
-            <Link to="/my-listings" className="hover:text-primary">
+            <Link to="/dashboard/my-items" className="hover:text-primary">
               My Listings
             </Link>
           </li>
           <li>
-            <Link to="/my-orders" className="hover:text-primary">
+            <Link to="/dashboard/my-orders" className="hover:text-primary">
               My Orders
             </Link>
           </li>

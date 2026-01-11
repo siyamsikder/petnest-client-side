@@ -7,7 +7,8 @@ import {
     MdPeopleAlt,
     MdExitToApp,
     MdArrowBack,
-    MdAdd
+    MdAdd,
+    MdShoppingBag
 } from 'react-icons/md';
 import { AuthContext } from '../contexts/AuthContext';
 import useRole from '../hooks/useRole';
@@ -32,6 +33,7 @@ const Sidebar = () => {
         { name: 'Profile', path: '/dashboard/profile', icon: <MdPerson size={22} /> },
         { name: 'My Listings', path: '/dashboard/my-items', icon: <MdList size={22} /> },
         { name: 'Add Listing', path: '/dashboard/add-listing', icon: <MdAdd size={22} /> },
+        { name: 'My Orders', path: '/dashboard/my-orders', icon: <MdShoppingBag size={22} /> },
     ];
 
     const adminItems = [
@@ -41,11 +43,16 @@ const Sidebar = () => {
     return (
         <aside className="w-64 bg-secondary text-white flex flex-col h-full shadow-xl">
             {/* Logo Section */}
-            <div className="p-6 border-b border-gray-800 flex items-center gap-3">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-secondary font-bold text-xl">
-                    P
+            <div className="p-6 border-b border-gray-800 flex items-center justify-between gap-3 text-white">
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-secondary font-bold text-xl">
+                        P
+                    </div>
+                    <span className="text-xl font-bold tracking-tight">PetNest</span>
                 </div>
-                <span className="text-xl font-bold tracking-tight">PetNest</span>
+                <div className="px-2 py-0.5 bg-primary/20 text-primary border border-primary/30 rounded text-[10px] font-bold uppercase">
+                    {role === 'admin' ? 'Admin' : 'User'}
+                </div>
             </div>
 
             {/* Navigation */}

@@ -8,6 +8,7 @@ import ManageUsers from '../pages/dashboard/admin/ManageUsers';
 import PrivateRoute from './PrivateRoute';
 import AdminRoute from './AdminRoute';
 import AddListing from '../pages/AddListing';
+import MyOrders from '../pages/MyOrders';
 
 export const dashboardRoutes = {
     path: "/dashboard",
@@ -32,6 +33,10 @@ export const dashboardRoutes = {
         {
             path: "my-items",
             element: <MyItems />
+        },
+        {
+            path: "my-orders",
+            element: <MyOrders />
         },
         {
             path: "admin/manage-users",

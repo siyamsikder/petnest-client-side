@@ -11,7 +11,7 @@ import ProductDetailsPage from "../pages/ProductDetailsPage";
 import MyOrders from "../pages/MyOrders";
 import AddListing from "../pages/AddListing";
 import MyListings from "../pages/MyListings";
-import PrivetRouts from "../contexts/PrivetRouts";
+import PrivateRoute from "./PrivateRoute";
 import { dashboardRoutes } from "./DashboardRoutes";
 
 export const routre = createBrowserRouter([
@@ -32,9 +32,9 @@ export const routre = createBrowserRouter([
       {
         path: "/listing/:id",
         element: (
-          <PrivetRouts>
+          <PrivateRoute>
             <ProductDetailsPage />
-          </PrivetRouts>
+          </PrivateRoute>
         ),
         loader: ({ params }) =>
           fetch(`https://petnest-one.vercel.app/listings/${params.id}`),
@@ -42,24 +42,17 @@ export const routre = createBrowserRouter([
       {
         path: "/category-filtered-product/:categoryName",
         element: (
-          <PrivetRouts>
+          <PrivateRoute>
             <CategoryByListing />
-          </PrivetRouts>
+          </PrivateRoute>
         ),
         loader: ({ params }) =>
           fetch(
             `https://petnest-one.vercel.app/category-filtered-product/${params.categoryName}`
           ),
       },
-      {
-        path: "/my-orders",
-        element: <MyOrders />,
-      },
 
-      {
-        path: "/my-orders",
-        element: <MyOrders />,
-      },
+
     ],
   },
 ]);

@@ -53,7 +53,7 @@ const MyItems = () => {
                     <h1 className="text-2xl font-bold font-playfair text-secondary">My Listings</h1>
                     <p className="text-gray-500 text-sm">Manage your pet collection and adoption status.</p>
                 </div>
-                <Link to="/add-listing">
+                <Link to="/dashboard/add-listing">
                     <button className="btn btn-primary rounded-xl flex items-center gap-2 self-start sm:self-center shadow-lg hover:scale-105 transition-transform">
                         <MdAdd size={20} />
                         Add New Item
