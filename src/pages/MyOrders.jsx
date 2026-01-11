@@ -12,19 +12,23 @@ const MyOrders = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user?.email) {
-      fetch(`https://petnest-one.vercel.app/orders?email=${user.email}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setOrders(data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.error(err);
-          toast.error("Failed to fetch orders!");
-          setLoading(false);
+    const fetchOrders = async () => {
+      if (!user?.email) return;
+      try {
+        const token = localStorage.getItem('access-token');
+        const res = await fetch(`https://petnest-one.vercel.app/orders?email=${user.email}`, {
+          headers: { authorization: `Bearer ${token}` }
         });
-    }
+        const data = await res.json();
+        setOrders(data);
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to fetch orders!");
+        setLoading(false);
+      }
+    };
+    fetchOrders();
   }, [user?.email]);
 
   const handleExportPDF = () => {

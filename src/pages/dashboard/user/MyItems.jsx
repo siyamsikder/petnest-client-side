@@ -11,26 +11,32 @@ const MyItems = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (user?.email) {
-            fetch(`https://petnest-one.vercel.app/listings?email=${user.email}`)
-                .then(res => res.json())
-                .then(data => {
-                    setItems(data);
-                    setLoading(false);
-                })
-                .catch(err => {
-                    console.error(err);
-                    setLoading(false);
+        const fetchItems = async () => {
+            if (!user?.email) return;
+            try {
+                const token = localStorage.getItem('access-token');
+                const res = await fetch(`https://petnest-one.vercel.app/listings?email=${user.email}`, {
+                    headers: { authorization: `Bearer ${token}` }
                 });
-        }
+                const data = await res.json();
+                setItems(data);
+                setLoading(false);
+            } catch (err) {
+                console.error(err);
+                setLoading(false);
+            }
+        };
+        fetchItems();
     }, [user?.email]);
 
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this listing?")) return;
 
         try {
+            const token = localStorage.getItem('access-token');
             const res = await fetch(`https://petnest-one.vercel.app/listings/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: { authorization: `Bearer ${token}` }
             });
             const data = await res.json();
             if (data.success) {

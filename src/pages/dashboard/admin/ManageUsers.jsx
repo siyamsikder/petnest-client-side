@@ -8,16 +8,21 @@ const ManageUsers = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('https://petnest-one.vercel.app/users')
-            .then(res => res.json())
-            .then(data => {
+        const fetchUsers = async () => {
+            try {
+                const token = localStorage.getItem('access-token');
+                const res = await fetch('https://petnest-one.vercel.app/users', {
+                    headers: { authorization: `Bearer ${token}` }
+                });
+                const data = await res.json();
                 setUsers(data);
                 setLoading(false);
-            })
-            .catch(err => {
+            } catch (err) {
                 console.error(err);
                 setLoading(false);
-            });
+            }
+        };
+        fetchUsers();
     }, []);
 
     const handleRoleChange = async (email, currentRole) => {
@@ -25,9 +30,13 @@ const ManageUsers = () => {
         if (!window.confirm(`Are you sure you want to make this user an ${newRole}?`)) return;
 
         try {
+            const token = localStorage.getItem('access-token');
             const res = await fetch(`https://petnest-one.vercel.app/users/${email}`, {
                 method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: `Bearer ${token}`
+                },
                 body: JSON.stringify({ role: newRole })
             });
             const data = await res.json();
@@ -45,9 +54,13 @@ const ManageUsers = () => {
         if (!window.confirm(`Are you sure you want to ${newStatus === 'Blocked' ? 'block' : 'unblock'} this user?`)) return;
 
         try {
+            const token = localStorage.getItem('access-token');
             const res = await fetch(`https://petnest-one.vercel.app/users/${email}`, {
                 method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: `Bearer ${token}`
+                },
                 body: JSON.stringify({ status: newStatus })
             });
             const data = await res.json();

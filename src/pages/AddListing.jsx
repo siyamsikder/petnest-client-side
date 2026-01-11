@@ -33,9 +33,13 @@ const AddListing = ({ onNewListing }) => {
     };
 
     try {
+      const token = localStorage.getItem('access-token');
       const res = await fetch("https://petnest-one.vercel.app/listings", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`
+        },
         body: JSON.stringify(dataToSend),
       });
 

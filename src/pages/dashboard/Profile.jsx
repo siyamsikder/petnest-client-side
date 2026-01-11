@@ -10,18 +10,22 @@ const Profile = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (authUser?.email) {
-            fetch(`https://petnest-one.vercel.app/users/${authUser.email}`)
-                .then(res => res.json())
-                .then(data => {
-                    setUserData(data);
-                    setLoading(false);
-                })
-                .catch(err => {
-                    console.error(err);
-                    setLoading(false);
+        const fetchUserData = async () => {
+            if (!authUser?.email) return;
+            try {
+                const token = localStorage.getItem('access-token');
+                const res = await fetch(`https://petnest-one.vercel.app/users/${authUser.email}`, {
+                    headers: { authorization: `Bearer ${token}` }
                 });
-        }
+                const data = await res.json();
+                setUserData(data);
+                setLoading(false);
+            } catch (err) {
+                console.error(err);
+                setLoading(false);
+            }
+        };
+        fetchUserData();
     }, [authUser?.email]);
 
     const handleUpdateProfile = async (e) => {
@@ -35,9 +39,13 @@ const Profile = () => {
         const updatedInfo = { name, phone, location, bio };
 
         try {
+            const token = localStorage.getItem('access-token');
             const res = await fetch(`https://petnest-one.vercel.app/users/${authUser.email}`, {
                 method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: `Bearer ${token}`
+                },
                 body: JSON.stringify(updatedInfo)
             });
             const data = await res.json();
