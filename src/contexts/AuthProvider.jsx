@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
+import API_BASE_URL from "../config/api";
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -58,7 +59,7 @@ const AuthProvider = ({ children }) => {
       // JWT token management
       if (currentUser?.email) {
         const loggedUser = { email: currentUser.email };
-        fetch('https://petnest-one.vercel.app/jwt', {
+        fetch(`${API_BASE_URL}/jwt`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(loggedUser)

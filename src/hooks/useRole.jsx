@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import API_BASE_URL from "../config/api";
 
 const useRole = () => {
     const { user, loading } = useContext(AuthContext);
@@ -9,7 +10,7 @@ const useRole = () => {
     useEffect(() => {
         if (!loading && user?.email) {
             setRoleLoading(true);
-            fetch(`https://petnest-one.vercel.app/users/role/${user.email}`, {
+            fetch(`${API_BASE_URL}/users/role/${user.email}`, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('access-token')}`
                 }

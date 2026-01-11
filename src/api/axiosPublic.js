@@ -1,7 +1,8 @@
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 
 const axiosPublic = axios.create({
-    baseURL: 'https://petnest-one.vercel.app', // Using existing backend for now as per project context
+    baseURL: API_BASE_URL,
 });
 
 export default axiosPublic;

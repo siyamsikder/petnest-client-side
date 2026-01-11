@@ -1,7 +1,8 @@
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 
 const axiosSecure = axios.create({
-    baseURL: 'https://petnest-one.vercel.app',
+    baseURL: API_BASE_URL,
 });
 
 // Request interceptor to add authorization header for every secure call
