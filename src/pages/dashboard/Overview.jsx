@@ -8,20 +8,40 @@ import {
     PieChart, Pie, Cell
 } from 'recharts';
 
+import useRole from '../../hooks/useRole';
+import { AuthContext } from '../../contexts/AuthContext';
+import { useContext } from 'react';
+
 const COLORS = ['#F59E0B', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899', '#EF4444'];
 
 const Overview = () => {
+    const { user } = useContext(AuthContext);
+    const [role, roleLoading] = useRole();
     const [statsData, setStatsData] = useState(null);
     const [recentListings, setRecentListings] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
+            if (!user?.email || roleLoading) return;
+
             try {
+                const token = localStorage.getItem('access-token');
+                const headers = { authorization: `Bearer ${token}` };
+
+                const statsEndpoint = role === 'admin'
+                    ? 'https://petnest-one.vercel.app/admin-stats'
+                    : `https://petnest-one.vercel.app/user-stats/${user.email}`;
+
+                const listingsEndpoint = role === 'admin'
+                    ? 'https://petnest-one.vercel.app/listings?limit=3'
+                    : `https://petnest-one.vercel.app/listings?email=${user.email}&limit=3`;
+
                 const [statsRes, listingsRes] = await Promise.all([
-                    fetch('https://petnest-one.vercel.app/admin-stats'),
-                    fetch('https://petnest-one.vercel.app/listings?limit=3')
+                    fetch(statsEndpoint, { headers }),
+                    fetch(listingsEndpoint, { headers })
                 ]);
+
                 const stats = await statsRes.json();
                 const listings = await listingsRes.json();
 
@@ -34,27 +54,32 @@ const Overview = () => {
             }
         };
         fetchDashboardData();
-    }, []);
+    }, [user, role, roleLoading]);
 
-    if (loading) return <LoadingSpinner />;
+    if (loading || roleLoading) return <LoadingSpinner />;
 
-    const stats = [
+    const stats = role === 'admin' ? [
         { label: 'Total Pets', value: statsData?.totalPets || 0, icon: <MdPets className="text-primary" size={28} />, bg: 'bg-yellow-50' },
         { label: 'Total Users', value: statsData?.totalUsers || 0, icon: <MdPeople className="text-blue-500" size={28} />, bg: 'bg-blue-50' },
         { label: 'Total Orders', value: statsData?.totalOrders || 0, icon: <MdShoppingBag className="text-green-500" size={28} />, bg: 'bg-green-50' },
         { label: 'Growth', value: statsData?.growth || '0%', icon: <MdTrendingUp className="text-purple-500" size={28} />, bg: 'bg-purple-50' },
+    ] : [
+        { label: 'My Listings', value: statsData?.totalListings || 0, icon: <MdList className="text-primary" size={28} />, bg: 'bg-yellow-50' },
+        { label: 'My Orders', value: statsData?.totalOrders || 0, icon: <MdShoppingBag className="text-blue-500" size={28} />, bg: 'bg-blue-50' },
     ];
 
     return (
         <div className="space-y-8 pb-12">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold font-playfair text-secondary">Dashboard Overview</h1>
-                <p className="text-gray-500">Welcome back! Here's a snapshot of your pet nest.</p>
+                <h1 className="text-2xl font-bold font-playfair text-secondary">
+                    {role === 'admin' ? 'Admin Dashboard' : 'User Dashboard'} Overview
+                </h1>
+                <p className="text-gray-500">Welcome back! Here's a snapshot of {role === 'admin' ? 'PetNest system' : 'your activities'}.</p>
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className={`grid grid-cols-1 sm:grid-cols-2 ${role === 'admin' ? 'lg:grid-cols-4' : 'lg:grid-cols-2'} gap-6`}>
                 {stats.map((stat, idx) => (
                     <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4 transition-transform hover:scale-[1.02]">
                         <div className={`p-3 ${stat.bg} rounded-xl`}>
@@ -68,57 +93,61 @@ const Overview = () => {
                 ))}
             </div>
 
-            {/* Charts Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* Bar Chart: Listings Trends */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-[400px] flex flex-col">
-                    <h3 className="text-lg font-bold mb-6 text-secondary">Adoption Trends (Monthly)</h3>
-                    <div className="flex-1 w-full h-full">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={statsData?.trendsData || []}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                                <YAxis axisLine={false} tickLine={false} />
-                                <Tooltip cursor={{ fill: '#f3f4f6' }} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} />
-                                <Bar dataKey="listings" fill="#F59E0B" radius={[4, 4, 0, 0]} barSize={40} />
-                            </BarChart>
-                        </ResponsiveContainer>
+            {/* Charts Section - Only for Admin */}
+            {role === 'admin' && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Bar Chart: Listings Trends */}
+                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-[400px] flex flex-col">
+                        <h3 className="text-lg font-bold mb-6 text-secondary">Adoption Trends (Monthly)</h3>
+                        <div className="flex-1 w-full h-full">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={statsData?.trendsData || []}>
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                    <XAxis dataKey="name" axisLine={false} tickLine={false} />
+                                    <YAxis axisLine={false} tickLine={false} />
+                                    <Tooltip cursor={{ fill: '#f3f4f6' }} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} />
+                                    <Bar dataKey="listings" fill="#F59E0B" radius={[4, 4, 0, 0]} barSize={40} />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+
+                    {/* Pie Chart: Category Breakdown */}
+                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-[400px] flex flex-col">
+                        <h3 className="text-lg font-bold mb-6 text-secondary">Category Breakdown</h3>
+                        <div className="flex-1 w-full h-full">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <Pie
+                                        data={statsData?.categoryData || []}
+                                        cx="50%"
+                                        cy="50%"
+                                        innerRadius={60}
+                                        outerRadius={100}
+                                        paddingAngle={5}
+                                        dataKey="value"
+                                    >
+                                        {(statsData?.categoryData || []).map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} />
+                                    <Legend verticalAlign="bottom" height={36} />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
                     </div>
                 </div>
+            )}
 
-                {/* Pie Chart: Category Breakdown */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-[400px] flex flex-col">
-                    <h3 className="text-lg font-bold mb-6 text-secondary">Category Breakdown</h3>
-                    <div className="flex-1 w-full h-full">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                                <Pie
-                                    data={statsData?.categoryData || []}
-                                    cx="50%"
-                                    cy="50%"
-                                    innerRadius={60}
-                                    outerRadius={100}
-                                    paddingAngle={5}
-                                    dataKey="value"
-                                >
-                                    {(statsData?.categoryData || []).map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} />
-                                <Legend verticalAlign="bottom" height={36} />
-                            </PieChart>
-                        </ResponsiveContainer>
-                    </div>
-                </div>
-            </div>
-
-            {/* Recent Listings Section (Dynamic Data Table/Grid) */}
+            {/* Recent Listings Section */}
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-bold text-secondary">Recent Listings (Last 3)</h3>
+                    <h3 className="text-lg font-bold text-secondary">
+                        {role === 'admin' ? 'Global Recent Listings' : 'My Recent Listings'}
+                    </h3>
                     <div className="flex gap-4">
-                        <Link to="/pets-supplies" className="text-sm font-medium text-primary hover:underline">View All</Link>
+                        <Link to={role === 'admin' ? "/pets-supplies" : "/dashboard/my-items"} className="text-sm font-medium text-primary hover:underline">View All</Link>
                     </div>
                 </div>
 
