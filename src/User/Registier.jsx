@@ -24,7 +24,20 @@ const Register = () => {
           displayName: name,
           photoURL: photo,
         })
-          .then(() => {
+          .then(async () => {
+            // Save user to database
+            const newUser = {
+              name,
+              email,
+              photo
+            };
+
+            await fetch('https://petnest-one.vercel.app/users', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(newUser)
+            });
+
             toast.success("Registration successful!");
             form.reset();
             navigate("/");
@@ -38,15 +51,28 @@ const Register = () => {
 
   //Handle Google
   const handleGoogleSignin = () => {
-  signInWithGoogle()
-    .then((result) => {
-      toast.success("Google login successful!");
-      navigate("/");
-    })
-    .catch((error) => {
-      toast.error(error.message);
-    });
-};
+    signInWithGoogle()
+      .then(async (result) => {
+        const user = result.user;
+        const newUser = {
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL,
+        };
+
+        await fetch('https://petnest-one.vercel.app/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newUser)
+        });
+
+        toast.success("Google login successful!");
+        navigate("/");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black px-4">

@@ -41,7 +41,20 @@ const Login = () => {
   // Google Login
   const handleGoogleSignin = () => {
     signInWithGoogle()
-      .then((result) => {
+      .then(async (result) => {
+        const user = result.user;
+        const newUser = {
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL,
+        };
+
+        await fetch('https://petnest-one.vercel.app/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newUser)
+        });
+
         toast.success("Google login successful!");
         navigate(from, { replace: true });
       })

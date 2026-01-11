@@ -3,8 +3,8 @@ import { AuthContext } from "../contexts/AuthContext";
 import "jspdf-autotable";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-
 import { toast } from "react-toastify";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const MyOrders = () => {
   const { user } = useContext(AuthContext);
@@ -13,7 +13,7 @@ const MyOrders = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:3000/orders?email=${user.email}`)
+      fetch(`https://petnest-one.vercel.app/orders?email=${user.email}`)
         .then((res) => res.json())
         .then((data) => {
           setOrders(data);
@@ -60,12 +60,7 @@ const MyOrders = () => {
     doc.save("my_orders.pdf");
   };
 
-  if (loading)
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-      </div>
-    );
+  if (loading) return <LoadingSpinner />;
 
   return (
     <section className="max-w-7xl mx-auto py-12 px-6 min-h-screen">

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { toast } from "react-toastify";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const MyListings = () => {
   const { user } = useContext(AuthContext);
@@ -9,7 +10,7 @@ const MyListings = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:3000/listings?email=${user.email}`)
+      fetch(`https://petnest-one.vercel.app/listings?email=${user.email}`)
         .then((res) => res.json())
         .then((data) => {
           setListings(data);
@@ -29,7 +30,7 @@ const MyListings = () => {
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/listings/${id}`, {
+      const res = await fetch(`https://petnest-one.vercel.app/listings/${id}`, {
         method: "DELETE",
       });
 
@@ -47,7 +48,7 @@ const MyListings = () => {
     }
   };
 
-  if (loading) return <p className="text-center py-8">Loading...</p>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="max-w-6xl mx-auto p-4">

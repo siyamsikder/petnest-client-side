@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { FaTag, FaMoneyBillWave, FaMapMarkerAlt, FaPaw } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const RecentListings = () => {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   useEffect(() => {
-    fetch("http://localhost:3000/listings")
+    fetch("https://petnest-one.vercel.app/listings?limit=3")
       .then((res) => res.json())
       .then((data) => {
-        const latest = data
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-          .slice(0, 6);
-        setListings(latest);
+        setListings(data.slice(0, 3));
         setLoading(false);
       })
       .catch((err) => {
@@ -23,11 +21,7 @@ const RecentListings = () => {
   }, []);
 
   if (loading) {
-    return (
-      <p className="text-center py-16 text-gray-500">
-        Loading recent listings...
-      </p>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

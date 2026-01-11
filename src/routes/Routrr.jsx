@@ -12,8 +12,10 @@ import MyOrders from "../pages/MyOrders";
 import AddListing from "../pages/AddListing";
 import MyListings from "../pages/MyListings";
 import PrivetRouts from "../contexts/PrivetRouts";
+import { dashboardRoutes } from "./DashboardRoutes";
 
 export const routre = createBrowserRouter([
+  dashboardRoutes,
   {
     path: "/",
     errorElement: <ErrorPage />,
@@ -25,7 +27,7 @@ export const routre = createBrowserRouter([
       {
         path: "/pets-supplies",
         element: <Listings />,
-        loader: () => fetch("http://localhost:3000/listings"),
+        loader: () => fetch("https://petnest-one.vercel.app/listings"),
       },
       {
         path: "/listing/:id",
@@ -35,7 +37,7 @@ export const routre = createBrowserRouter([
           </PrivetRouts>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/listings/${params.id}`),
+          fetch(`https://petnest-one.vercel.app/listings/${params.id}`),
       },
       {
         path: "/category-filtered-product/:categoryName",
@@ -46,7 +48,7 @@ export const routre = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(
-            `http://localhost:3000/category-filtered-product/${params.categoryName}`
+            `https://petnest-one.vercel.app/category-filtered-product/${params.categoryName}`
           ),
       },
       {

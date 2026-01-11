@@ -7,7 +7,7 @@ import { MdPets } from "react-icons/md";
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSignOut = () => {
     signOutUser()
@@ -47,6 +47,11 @@ const Navbar = () => {
           <li>
             <Link to="/my-orders" className="hover:text-primary">
               My Orders
+            </Link>
+          </li>
+          <li>
+            <Link to="/dashboard" className="hover:text-primary">
+              Dashboard
             </Link>
           </li>
         </>
@@ -98,6 +103,7 @@ const Navbar = () => {
 
         {/* Navbar End */}
         <div className="navbar-end flex items-center gap-3">
+
           {!user ? (
             <div className="flex gap-2">
               <Link

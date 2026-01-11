@@ -33,7 +33,7 @@ const AddListing = ({ onNewListing }) => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/listings", {
+      const res = await fetch("https://petnest-one.vercel.app/listings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataToSend),

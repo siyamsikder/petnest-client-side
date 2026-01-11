@@ -30,7 +30,7 @@ const ProductDetailsPage = () => {
       notes: form.notes.value,
     };
 
-    fetch("http://localhost:3000/orders", {
+    fetch("https://petnest-one.vercel.app/orders", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(order),

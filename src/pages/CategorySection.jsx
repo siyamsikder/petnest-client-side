@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const CategorySection = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/categories")
+    fetch("https://petnest-one.vercel.app/categories")
       .then((res) => res.json())
       .then((data) => {
         setCategories(data);
@@ -19,11 +20,7 @@ const CategorySection = () => {
   }, []);
 
   if (loading) {
-    return (
-      <p className="text-center py-12 text-gray-500 animate-pulse">
-        Loading categories...
-      </p>
-    );
+    return <LoadingSpinner />;
   }
 
   return (
