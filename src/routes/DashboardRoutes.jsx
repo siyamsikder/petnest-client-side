@@ -9,6 +9,7 @@ import PrivateRoute from './PrivateRoute';
 import AdminRoute from './AdminRoute';
 import AddListing from '../pages/AddListing';
 import MyOrders from '../pages/MyOrders';
+import AllOrders from '../pages/dashboard/admin/AllOrders';
 
 export const dashboardRoutes = {
     path: "/dashboard",
@@ -39,6 +40,11 @@ export const dashboardRoutes = {
             element: <MyOrders />
         },
         {
+            path: "add-listing",
+            element: <AddListing />
+        },
+        // Admin Specific Routes
+        {
             path: "admin/manage-users",
             element: (
                 <AdminRoute>
@@ -47,8 +53,12 @@ export const dashboardRoutes = {
             )
         },
         {
-            path: "add-listing",
-            element: <AddListing />
+            path: "admin/all-orders",
+            element: (
+                <AdminRoute>
+                    <AllOrders />
+                </AdminRoute>
+            )
         }
     ]
 };
