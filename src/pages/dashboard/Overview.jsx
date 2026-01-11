@@ -30,12 +30,12 @@ const Overview = () => {
                 const headers = { authorization: `Bearer ${token}` };
 
                 const statsEndpoint = role === 'admin'
-                    ? 'https://petnest-one.vercel.app/admin-stats'
-                    : `https://petnest-one.vercel.app/user-stats/${user.email}`;
+                    ? `${API_BASE_URL}/admin-stats`
+                    : `${API_BASE_URL}/user-stats/${user.email}`;
 
                 const listingsEndpoint = role === 'admin'
-                    ? 'https://petnest-one.vercel.app/listings?limit=3'
-                    : `https://petnest-one.vercel.app/listings?email=${user.email}&limit=3`;
+                    ? `${API_BASE_URL}/listings?limit=3`
+                    : `${API_BASE_URL}/listings?email=${user.email}&limit=3`;
 
                 const [statsRes, listingsRes] = await Promise.all([
                     fetch(statsEndpoint, { headers }),
