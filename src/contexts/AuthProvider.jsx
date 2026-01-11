@@ -17,27 +17,37 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const createUser = (email, passward) => {
     setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, passward);
+    return createUserWithEmailAndPassword(auth, email, passward).catch((error) => {
+      setLoading(false);
+      throw error;
+    });
   };
   const signInUser = (email, passward) => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, email, passward);
+    return signInWithEmailAndPassword(auth, email, passward).catch((error) => {
+      setLoading(false);
+      throw error;
+    });
   };
   const signInWithGoogle = () => {
     setLoading(true);
-    return signInWithPopup(auth, googleProvider);
+    return signInWithPopup(auth, googleProvider).catch((error) => {
+      setLoading(false);
+      throw error;
+    });
   };
   const signOutUser = () => {
-    setLoading(false);
-    return signOut(auth);
+    setLoading(true);
+    return signOut(auth).finally(() => setLoading(false));
   };
   const updateUserProfile = (userInfo) => {
     return updateProfile(auth.currentUser, userInfo);
   };
-    const resetPassword = (email) => {
+  const resetPassword = (email) => {
     setLoading(false);
     return sendPasswordResetEmail(auth, email);
   };
@@ -45,6 +55,7 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (createUser) => {
       setUser(createUser);
       setLoading(false);
+      setInitialLoading(false);
     });
     return () => {
       unsubscribe();
@@ -54,11 +65,13 @@ const AuthProvider = ({ children }) => {
     createUser,
     user,
     loading,
+    initialLoading,
     signInUser,
     signInWithGoogle,
     updateUserProfile,
     signOutUser,
-    resetPassword
+    resetPassword,
+    setLoading
   };
   return (
     <div>

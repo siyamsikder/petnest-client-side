@@ -57,20 +57,8 @@ export const routre = createBrowserRouter([
       },
 
       {
-        path: "/add-listing",
-        element: (
-          <PrivetRouts>
-            <AddListing />
-          </PrivetRouts>
-        ),
-      },
-      {
-        path: "/my-listings",
-        element: (
-          <PrivetRouts>
-            <MyListings />
-          </PrivetRouts>
-        ),
+        path: "/my-orders",
+        element: <MyOrders />,
       },
     ],
   },

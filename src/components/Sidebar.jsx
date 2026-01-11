@@ -6,7 +6,8 @@ import {
     MdList,
     MdPeopleAlt,
     MdExitToApp,
-    MdArrowBack
+    MdArrowBack,
+    MdAdd
 } from 'react-icons/md';
 import { AuthContext } from '../contexts/AuthContext';
 import useRole from '../hooks/useRole';
@@ -29,7 +30,8 @@ const Sidebar = () => {
     const navItems = [
         { name: 'Dashboard', path: '/dashboard/overview', icon: <MdDashboard size={22} /> },
         { name: 'Profile', path: '/dashboard/profile', icon: <MdPerson size={22} /> },
-        { name: 'My Items', path: '/dashboard/my-items', icon: <MdList size={22} /> },
+        { name: 'My Listings', path: '/dashboard/my-items', icon: <MdList size={22} /> },
+        { name: 'Add Listing', path: '/dashboard/add-listing', icon: <MdAdd size={22} /> },
     ];
 
     const adminItems = [

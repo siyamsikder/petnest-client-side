@@ -6,8 +6,8 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import { AuthContext } from "../contexts/AuthContext";
 
 const MainLayout = () => {
-  const { loading } = useContext(AuthContext);
-  if (loading) return <LoadingSpinner />;
+  const { initialLoading } = useContext(AuthContext);
+  if (initialLoading) return <LoadingSpinner />;
 
   return (
     <div className="flex flex-col min-h-screen bg-[#fcf0ca]">
