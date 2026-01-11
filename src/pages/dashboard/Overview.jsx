@@ -11,6 +11,7 @@ import {
 import useRole from '../../hooks/useRole';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useContext } from 'react';
+import API_BASE_URL from '../../config/api';
 
 const COLORS = ['#F59E0B', '#3B82F6', '#10B981', '#8B5CF6', '#EC4899', '#EF4444'];
 
