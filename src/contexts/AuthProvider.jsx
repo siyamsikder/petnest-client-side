@@ -69,6 +69,12 @@ const AuthProvider = ({ children }) => {
             localStorage.setItem('access-token', data.token);
             setLoading(false);
             setInitialLoading(false);
+          })
+          .catch(error => {
+            console.error('JWT fetch failed:', error);
+            // Still set loading to false even if JWT fails
+            setLoading(false);
+            setInitialLoading(false);
           });
       } else {
         localStorage.removeItem('access-token');
