@@ -52,10 +52,28 @@ const AuthProvider = ({ children }) => {
     return sendPasswordResetEmail(auth, email);
   };
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (createUser) => {
-      setUser(createUser);
-      setLoading(false);
-      setInitialLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+
+      // JWT token management
+      if (currentUser?.email) {
+        const loggedUser = { email: currentUser.email };
+        fetch('https://petnest-one.vercel.app/jwt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(loggedUser)
+        })
+          .then(res => res.json())
+          .then(data => {
+            localStorage.setItem('access-token', data.token);
+            setLoading(false);
+            setInitialLoading(false);
+          });
+      } else {
+        localStorage.removeItem('access-token');
+        setLoading(false);
+        setInitialLoading(false);
+      }
     });
     return () => {
       unsubscribe();

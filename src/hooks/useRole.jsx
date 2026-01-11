@@ -9,7 +9,11 @@ const useRole = () => {
     useEffect(() => {
         if (!loading && user?.email) {
             setRoleLoading(true);
-            fetch(`https://petnest-one.vercel.app/users/role/${user.email}`)
+            fetch(`https://petnest-one.vercel.app/users/role/${user.email}`, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('access-token')}`
+                }
+            })
                 .then(res => res.json())
                 .then(data => {
                     setRole(data.role);
