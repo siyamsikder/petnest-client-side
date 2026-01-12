@@ -43,11 +43,14 @@ const Overview = () => {
                     fetch(listingsEndpoint, { headers })
                 ]);
 
+                if (!statsRes.ok) throw new Error(`Stats fetch failed: ${statsRes.status}`);
+                if (!listingsRes.ok) throw new Error(`Listings fetch failed: ${listingsRes.status}`);
+
                 const stats = await statsRes.json();
                 const listings = await listingsRes.json();
 
-                setStatsData(stats);
-                setRecentListings(listings.slice(0, 3));
+                setStatsData(stats || {});
+                setRecentListings(Array.isArray(listings) ? listings.slice(0, 3) : []);
                 setLoading(false);
             } catch (error) {
                 console.error(error);

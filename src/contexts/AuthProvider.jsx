@@ -64,15 +64,28 @@ const AuthProvider = ({ children }) => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(loggedUser)
         })
-          .then(res => res.json())
+          .then(async res => {
+            if (!res.ok) {
+              const errorData = await res.json().catch(() => ({}));
+              console.error("Server Error Detail:", errorData);
+              throw new Error(`HTTP error! status: ${res.status} - ${errorData.message || 'Unknown error'}`);
+            }
+            return res.json();
+          })
           .then(data => {
-            localStorage.setItem('access-token', data.token);
+            if (data?.token) {
+              localStorage.setItem('access-token', data.token);
+            } else {
+              localStorage.removeItem('access-token');
+            }
+            // Always set loading to false after attempt
             setLoading(false);
             setInitialLoading(false);
           })
           .catch(error => {
             console.error('JWT fetch failed:', error);
-            // Still set loading to false even if JWT fails
+            // On error, clear token to be safe and stop loading
+            localStorage.removeItem('access-token');
             setLoading(false);
             setInitialLoading(false);
           });

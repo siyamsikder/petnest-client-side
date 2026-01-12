@@ -14,8 +14,9 @@ const ManageUsers = () => {
                 const res = await fetch('https://petnest-one.vercel.app/users', {
                     headers: { authorization: `Bearer ${token}` }
                 });
+                if (!res.ok) throw new Error(`Users fetch error: ${res.status}`);
                 const data = await res.json();
-                setUsers(data);
+                setUsers(Array.isArray(data) ? data : []);
                 setLoading(false);
             } catch (err) {
                 console.error(err);
