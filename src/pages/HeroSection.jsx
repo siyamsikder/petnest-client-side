@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { Link } from "react-router";
 
 const HeroBanner = () => {
@@ -8,21 +7,15 @@ const HeroBanner = () => {
 
   return (
     <div className="relative w-full h-[450px] bg-gradient-to-r from-purple-200 via-pink-100 to-yellow-200 flex items-center justify-center overflow-hidden">
-      {/* Floating Pet Image */}
-      <motion.img
+      {/* Static Pet Image */}
+      <img
         src={bannerImg}
         alt="Happy Pets"
         className="absolute bottom-0 right-10 w-64 rounded-xl shadow-lg"
-        animate={{ y: [0, -20, 0] }}
-        transition={{ repeat: Infinity, duration: 4 }}
       />
 
       {/* Text Content */}
-      <motion.div
-        className="text-center z-10 px-4"
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.5 }}>
+      <div className="text-center z-10 px-4">
         <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
           Find Your Furry Friend Today!
         </h1>
@@ -34,10 +27,8 @@ const HeroBanner = () => {
             Browse Pets
           </button>
         </Link>
-      </motion.div>
-
-      {/* Optional Floating Paw Icons */}
-      <motion.div
+      </div>
+      {/* No animation icons */}
         className="absolute top-10 left-10 text-primary text-4xl"
         animate={{ rotate: [0, 15, -15, 0] }}
         transition={{ repeat: Infinity, duration: 3 }}>
