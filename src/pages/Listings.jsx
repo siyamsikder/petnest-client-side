@@ -1,53 +1,56 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useLoaderData } from "react-router";
-import {
-  FaTag,
-  FaMoneyBillWave,
-  FaMapMarkerAlt,
-  FaPaw,
-} from "react-icons/fa";
+import { useLoaderData } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import CardSkeleton from "./CardSkeleton";
-
+import ProductCard from "../components/ProductCard";
 
 const Listings = () => {
   const data = useLoaderData();
   const { loading } = useContext(AuthContext);
-
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortOrder, setSortOrder] = useState("default");
   const [showData, setShowData] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState({});
 
   /* AOS Init */
   useEffect(() => {
-    AOS.init({
-      duration: 1200,
-      once: false,
-      mirror: true,
-      easing: "ease-in-out",
-    });
+    AOS.init({ duration: 1000, once: true });
   }, []);
 
-  /* 3 second delay */
+  /* Fetch Categories */
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowData(true);
-    }, 3000);
+    fetch("https://petnest-one.vercel.app/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data))
+      .catch((err) => console.error("Error fetching categories:", err));
+  }, []);
 
+  /* Skeleton delay */
+  useEffect(() => {
+    const timer = setTimeout(() => setShowData(true), 1500);
     return () => clearTimeout(timer);
   }, []);
 
-  /* Global loading or delay */
+  const filteredData = selectedCategory === "All" 
+    ? data 
+    : data.filter(item => item.category === selectedCategory);
+
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (sortOrder === "low") return (Number(a.price) || 0) - (Number(b.price) || 0);
+    if (sortOrder === "high") return (Number(b.price) || 0) - (Number(a.price) || 0);
+    return 0;
+  });
+
   if (loading || !showData) {
     return (
-      <section className="py-16 min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#111] to-[#0a0a0a]">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="h-8 bg-gray-700 rounded w-1/3 mx-auto mb-12 animate-pulse"></div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <section className="py-24 bg-gray-50 min-h-screen">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="h-12 bg-gray-200 rounded-2xl w-48 mx-auto mb-16 animate-pulse"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {[...Array(6)].map((_, i) => (
-              <CardSkeleton key={i} />
+              <div key={i} className="h-[500px] bg-gray-200 rounded-[32px] animate-pulse"></div>
             ))}
           </div>
         </div>
@@ -56,83 +59,63 @@ const Listings = () => {
   }
 
   return (
-    <section className="py-16 text-white bg-gradient-to-br from-[#0a0a0a] via-[#111] to-[#0a0a0a]">
-      <div className="max-w-6xl mx-auto px-4">
-        <h2
-          className="text-3xl md:text-4xl font-extrabold mb-12 text-center"
-          data-aos="fade-down"
-        >
-          🐾 All Listings
-        </h2>
+    <section className="py-24 bg-gray-50 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <span className="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">Our Collection</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-8">
+            Explore All <span className="text-primary font-classic">Available</span> Pets.
+          </h2>
 
-        {data.length === 0 ? (
-          <p className="text-center text-gray-400" data-aos="zoom-in">
-            No listings available right now.
-          </p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {data.map((listing, index) => (
-              <div
-                key={listing._id}
-                data-aos="zoom-in-up"
-                data-aos-delay={index * 100}
-                className="bg-base-100 rounded-2xl shadow-lg hover:shadow-2xl border border-gray-700 transition-transform transform hover:-translate-y-2 hover:scale-[1.03]"
+          {/* Filter & Sort Bar */}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-12">
+            <div className="flex flex-wrap justify-center gap-3">
+              <button
+                onClick={() => setSelectedCategory("All")}
+                className={`px-8 py-3 rounded-full font-bold transition-all shadow-sm ${
+                  selectedCategory === "All"
+                    ? "bg-primary text-white shadow-primary/20"
+                    : "bg-white text-gray-600 hover:bg-gray-100"
+                }`}
               >
-                {/* Image Loader */}
-                <div className="relative w-full h-56">
-                  {!imageLoaded[listing._id] && (
-                    <div className="absolute inset-0 bg-gray-700 animate-pulse rounded-t-2xl"></div>
-                  )}
+                All Items
+              </button>
+              {categories.map((cat, i) => (
+                <button
+                  key={i}
+                  onClick={() => setSelectedCategory(cat.name)}
+                  className={`px-8 py-3 rounded-full font-bold transition-all shadow-sm ${
+                    selectedCategory === cat.name
+                      ? "bg-primary text-white shadow-primary/20"
+                      : "bg-white text-gray-600 hover:bg-gray-100"
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
 
-                  <img
-                    src={listing.image}
-                    alt={listing.name}
-                    onLoad={() =>
-                      setImageLoaded((prev) => ({
-                        ...prev,
-                        [listing._id]: true,
-                      }))
-                    }
-                    className={`w-full h-56 object-cover rounded-t-2xl transition-opacity duration-500 ${
-                      imageLoaded[listing._id]
-                        ? "opacity-100"
-                        : "opacity-0"
-                    }`}
-                  />
-                </div>
+            <div className="h-10 w-[1px] bg-gray-200 hidden md:block"></div>
 
-                <div className="p-5 space-y-2 text-gray-200">
-                  <h3 className="text-2xl font-semibold text-white">
-                    {listing.name}
-                  </h3>
+            <select 
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="select select-bordered bg-white rounded-full px-6 font-bold text-gray-600 border-none shadow-sm focus:ring-2 focus:ring-primary/20 transition-all"
+            >
+              <option value="default">Sort by Price</option>
+              <option value="low">Price: Low to High</option>
+              <option value="high">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
 
-                  <p className="flex items-center gap-2 text-sm">
-                    <FaTag className="text-primary" /> {listing.category}
-                  </p>
-
-                  <p className="flex items-center gap-2 text-sm">
-                    <FaMoneyBillWave className="text-green-500" />
-                    {listing.price ? (
-                      `৳ ${listing.price}`
-                    ) : (
-                      <>
-                        <FaPaw className="text-pink-500" /> Free for Adoption
-                      </>
-                    )}
-                  </p>
-
-                  <p className="flex items-center gap-2 text-sm">
-                    <FaMapMarkerAlt className="text-red-500" />
-                    {listing.location}
-                  </p>
-
-                  <Link to={`/listing/${listing._id}`}>
-                    <button className="w-full btn btn-primary btn-lg hover:scale-105 transition-transform">
-                      See Details
-                    </button>
-                  </Link>
-                </div>
-              </div>
+        {sortedData.length === 0 ? (
+          <div className="text-center py-24 bg-white rounded-[32px] border border-dashed border-gray-200">
+            <p className="text-gray-400 text-lg">No listings found. Check back later!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {sortedData.map((listing, index) => (
+              <ProductCard key={listing._id} listing={listing} index={index} />
             ))}
           </div>
         )}
