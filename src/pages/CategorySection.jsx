@@ -24,35 +24,44 @@ const CategorySection = () => {
   }
 
   return (
-    <section className="py-12 bg-[#fcf0ca]">
-      <div className="max-w-6xl mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold mb-8 text-gray-800">
-          🐾 Browse by Category
-        </h2>
+    <section className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+          <div className="max-w-xl text-left">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Browse by <span className="text-primary font-classic">Category</span>
+            </h2>
+            <p className="text-gray-600 text-lg">
+              Explore our wide variety of pets and supplies categorized for your convenience.
+            </p>
+          </div>
+          <Link to="/pets-supplies" className="text-primary font-semibold hover:underline flex items-center gap-2">
+            View All Products →
+          </Link>
+        </div>
 
         {/* Category Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {categories.map((category, index) => (
-            <div
+            <Link
+              to={`/category-filtered-product/${category.name}`}
               key={index}
-              className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+              className="group relative h-80 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
               <img
                 src={category.image}
                 alt={category.name}
-                className="rounded-t-2xl w-full h-48 object-cover"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
-
-              <div className="p-4">
-                <h3 className="text-xl font-semibold mb-2 text-gray-700">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 right-0 p-8">
+                <h3 className="text-2xl font-bold text-white mb-2">
                   {category.name}
                 </h3>
-                <Link to={`/category-filtered-product/${category.name}`}>
-                  <button className="btn w-full btn-primary text-white py-2 rounded-lg transition">
-                    View {category.name}
-                  </button>
-                </Link>
+                <p className="text-white/80 text-sm transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  Explore {category.name} →
+                </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

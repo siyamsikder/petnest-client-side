@@ -2,7 +2,7 @@ import React from "react";
 
 const ListingSkeleton = () => {
   return (
-    <div className="bg-base-100 rounded-2xl shadow-lg border border-gray-200 animate-pulse">
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 animate-pulse">
       <div className="w-full h-56 bg-gray-300 rounded-t-2xl"></div>
 
       <div className="p-5 space-y-3">

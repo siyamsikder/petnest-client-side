@@ -4,6 +4,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../../../components/LoadingSpinner";
+import API_BASE_URL from "../../../config/api";
 
 const AllOrders = () => {
     const [orders, setOrders] = useState([]);
@@ -13,7 +14,7 @@ const AllOrders = () => {
         const fetchOrders = async () => {
             try {
                 const token = localStorage.getItem('access-token');
-                const res = await fetch(`https://petnest-one.vercel.app/orders`, {
+                const res = await fetch(`${API_BASE_URL}/orders`, {
                     headers: {
                         authorization: `Bearer ${token}`
                     }

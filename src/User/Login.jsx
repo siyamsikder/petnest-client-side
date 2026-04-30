@@ -64,37 +64,37 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black px-4">
-      <div className="card w-full max-w-md bg-neutral text-white shadow-2xl rounded-2xl border border-white/10">
+    <div className="min-h-screen flex items-center justify-center bg-[#fcf0ca] px-4">
+      <div className="card w-full max-w-md bg-white text-gray-800 shadow-2xl rounded-2xl border border-gray-100">
         <div className="card-body">
           <h1 className="text-4xl font-extrabold text-center text-primary mb-3">
             Welcome Back 👋
           </h1>
-          <p className="text-center text-gray-400 mb-6">
+          <p className="text-center text-gray-500 mb-6">
             Please login to your account
           </p>
           <form onSubmit={handleLogin}>
             <fieldset className="space-y-4">
               <div>
-                <label className="label font-medium text-gray-200">Email</label>
+                <label className="label font-medium text-gray-700">Email</label>
                 <input
                   type="email"
                   name="email"
-                  className="input input-bordered w-full bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-primary focus:outline-none"
+                  className="input input-bordered w-full bg-gray-50 border-gray-200 text-gray-800 placeholder-gray-400 focus:border-primary focus:outline-none"
                   placeholder="Enter your email"
                   required
                 />
               </div>
 
               <div>
-                <label className="label font-medium text-gray-200">
+                <label className="label font-medium text-gray-700">
                   Password
                 </label>
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
                     name="password"
-                    className="input input-bordered w-full bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-primary focus:outline-none"
+                    className="input input-bordered w-full bg-gray-50 border-gray-200 text-gray-800 placeholder-gray-400 focus:border-primary focus:outline-none"
                     placeholder="Enter your password"
                     required
                   />
@@ -107,10 +107,10 @@ const Login = () => {
               </div>
 
               <div className="flex justify-between items-center mt-2">
-                <label className="flex items-center gap-2 text-sm text-gray-400">
+                <label className="flex items-center gap-2 text-sm text-gray-500">
                   <input
                     type="checkbox"
-                    className="checkbox checkbox-sm border-white/30"
+                    className="checkbox checkbox-sm border-gray-300"
                   />
                   Remember me
                 </label>
@@ -130,10 +130,10 @@ const Login = () => {
             </fieldset>
           </form>
 
-          <div className="divider text-gray-400">OR</div>
+          <div className="divider text-gray-500">OR</div>
           <button
             onClick={handleGoogleSignin}
-            className="btn btn-outline w-full border-white/30 text-white hover:bg-white/10 flex items-center justify-center transition-all duration-200">
+            className="btn btn-outline w-full border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center justify-center transition-all duration-200">
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               alt="Google"
@@ -142,7 +142,7 @@ const Login = () => {
             Continue with Google
           </button>
 
-          <p className="text-center text-sm text-gray-400 mt-5">
+          <p className="text-center text-sm text-gray-500 mt-5">
             Don’t have an account?
             <Link to="/register" className="text-primary font-semibold ml-1">
               Register

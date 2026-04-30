@@ -33,8 +33,8 @@ const Listings = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const filteredData = selectedCategory === "All" 
-    ? data 
+  const filteredData = selectedCategory === "All"
+    ? data
     : data.filter(item => item.category === selectedCategory);
 
   const sortedData = [...filteredData].sort((a, b) => {
@@ -72,11 +72,10 @@ const Listings = () => {
             <div className="flex flex-wrap justify-center gap-3">
               <button
                 onClick={() => setSelectedCategory("All")}
-                className={`px-8 py-3 rounded-full font-bold transition-all shadow-sm ${
-                  selectedCategory === "All"
+                className={`px-8 py-3 rounded-full font-bold transition-all shadow-sm ${selectedCategory === "All"
                     ? "bg-primary text-white shadow-primary/20"
                     : "bg-white text-gray-600 hover:bg-gray-100"
-                }`}
+                  }`}
               >
                 All Items
               </button>
@@ -84,11 +83,10 @@ const Listings = () => {
                 <button
                   key={i}
                   onClick={() => setSelectedCategory(cat.name)}
-                  className={`px-8 py-3 rounded-full font-bold transition-all shadow-sm ${
-                    selectedCategory === cat.name
+                  className={`px-8 py-3 rounded-full font-bold transition-all shadow-sm ${selectedCategory === cat.name
                       ? "bg-primary text-white shadow-primary/20"
                       : "bg-white text-gray-600 hover:bg-gray-100"
-                  }`}
+                    }`}
                 >
                   {cat.name}
                 </button>
@@ -97,7 +95,7 @@ const Listings = () => {
 
             <div className="h-10 w-[1px] bg-gray-200 hidden md:block"></div>
 
-            <select 
+            <select
               onChange={(e) => setSortOrder(e.target.value)}
               className="select select-bordered bg-white rounded-full px-6 font-bold text-gray-600 border-none shadow-sm focus:ring-2 focus:ring-primary/20 transition-all"
             >

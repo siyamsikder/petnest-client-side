@@ -5,30 +5,43 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: #fddf08;
-  --color-secondary: #0a0a0a;
-  --color-base-100: #ffffff; /* white base */
-  --color-accent: #fef08a; /* soft light yellow accent */
+  --color-primary: #fbbf24; /* Amber-400 - more professional than pure yellow */
+  --color-secondary: #1f2937; /* Gray-800 */
+  --color-base-100: #ffffff;
+  --color-accent: #fef3c7; /* Soft amber-100 */
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #f9fafb; /* Soft Gray-50 */
+  color: #111827;
 }
-h1,h2,h3 {
-  font-family: "Playfair Display", serif;
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
-h4,h5,h6 {
-  font-family: "Montserrat", sans-serif;
+
+.font-classic {
+  font-family: 'Playfair Display', serif;
 }
-p,span,a {
-  font-family: "Roboto", sans-serif;
+
+/* Custom Utilities */
+.section-padding {
+  @apply py-20 px-6 md:px-12;
+}
+
+.container-wide {
+  @apply max-w-7xl mx-auto;
 }
 
 img {
-  transition: opacity 0.3s ease-in-out;
-  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
-img[src] {
-  opacity: 1;
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }

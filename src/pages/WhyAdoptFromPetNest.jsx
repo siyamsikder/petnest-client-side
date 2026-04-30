@@ -1,60 +1,62 @@
 import React from "react";
-import { FaHeart, FaPaw, FaHandshake, FaHome } from "react-icons/fa";
 
 const WhyAdoptFromPetNest = () => {
   const features = [
     {
-      icon: <FaHeart className="text-primary text-4xl" />,
-      title: "Give Love a Home",
-      description:
-        "Every adoption creates a loving bond. At PetNest, we help you give a pet the second chance they deserve.",
+      title: "Ethical Sourcing",
+      desc: "We verify every breeder and listing to ensure the highest standards of animal welfare.",
+      icon: "✨",
     },
     {
-      icon: <FaPaw className="text-yellow-400 text-4xl" />,
-      title: "Trusted Listings",
-      description:
-        "All pets and sellers on our platform are verified to ensure safety, trust, and happy adoptions.",
+      title: "Safe Payments",
+      desc: "Your transactions are protected with industry-leading security protocols.",
+      icon: "🛡️",
     },
     {
-      icon: <FaHandshake className="text-yellow-400 text-4xl" />,
-      title: "Community Connection",
-      description:
-        "Join a caring community of pet lovers. Share stories, learn tips, and make connections that last a lifetime.",
-    },
-    {
-      icon: <FaHome className="text-yellow-400 text-4xl" />,
-      title: "Safe Forever Homes",
-      description:
-        "We work to ensure every pet finds a safe, comfortable, and happy forever home — because they deserve it.",
+      title: "Community Driven",
+      desc: "Join a network of passionate pet lovers dedicated to finding homes for every animal.",
+      icon: "🤝",
     },
   ];
 
   return (
-    <section className="bg-gradient-to-r from-[#FFF7D0] via-[#FFF9E8] to-[#FFFBEF] py-16">
-      <div className="max-w-6xl mx-auto px-6 text-center">
-        <h2 className="text-4xl font-bold text-gray-900 mb-4">
-          🐕 Why Adopt from <span className="text-yellow-400">PetNest?</span>
-        </h2>
-        <p className="text-gray-700 max-w-2xl mx-auto mb-12">
-          PetNest isn’t just a platform — it’s a family. We connect loving
-          owners with pets who need a home. Together, we make adoption joyful,
-          easy, and meaningful.
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="bg-white shadow-lg rounded-2xl p-6 transition hover:-translate-y-2 hover:shadow-2xl border-t-4 border-yellow-400">
-              <div className="flex justify-center mb-4">{feature.icon}</div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                {feature.description}
-              </p>
+    <section className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div>
+            <span className="text-primary font-bold tracking-widest uppercase text-sm mb-4 block">Our Values</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 leading-tight">
+              Why <span className="text-primary font-classic">PetNest</span> is the best choice for you.
+            </h2>
+            <p className="text-gray-600 text-lg mb-12 leading-relaxed">
+              We go beyond just listings. We provide a safe, ethical, and supportive ecosystem for pets and their future families.
+            </p>
+            <div className="space-y-8">
+              {features.map((f, i) => (
+                <div key={i} className="flex gap-6 group">
+                  <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center text-2xl group-hover:bg-primary/10 transition-colors duration-300 shrink-0">
+                    {f.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{f.title}</h3>
+                    <p className="text-gray-500 leading-relaxed">{f.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+          <div className="relative">
+            <div className="absolute inset-0 bg-primary/20 rounded-[40px] rotate-3 -z-10"></div>
+            <img
+              src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&w=800&q=80"
+              alt="Happy pet"
+              className="rounded-[40px] shadow-2xl w-full h-[600px] object-cover"
+            />
+            <div className="absolute -bottom-10 -left-10 bg-white p-8 rounded-3xl shadow-2xl max-w-xs">
+              <p className="text-gray-800 font-bold mb-2">"Found my best friend here!"</p>
+              <p className="text-gray-500 text-sm">- Sarah Johnson</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

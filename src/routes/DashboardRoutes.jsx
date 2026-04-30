@@ -10,6 +10,7 @@ import AdminRoute from './AdminRoute';
 import AddListing from '../pages/AddListing';
 import MyOrders from '../pages/MyOrders';
 import AllOrders from '../pages/dashboard/admin/AllOrders';
+import ManageListings from '../pages/dashboard/admin/ManageListings';
 
 export const dashboardRoutes = {
     path: "/dashboard",
@@ -57,6 +58,14 @@ export const dashboardRoutes = {
             element: (
                 <AdminRoute>
                     <AllOrders />
+                </AdminRoute>
+            )
+        },
+        {
+            path: "admin/manage-listings",
+            element: (
+                <AdminRoute>
+                    <ManageListings />
                 </AdminRoute>
             )
         }
